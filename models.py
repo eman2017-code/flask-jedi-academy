@@ -23,8 +23,8 @@ class Course(Model):
         database = DATABASE
 
 class Enrollments(Model):
-    course_id = ForeignKeyField(Enrollments, backref='courses')
-    padawan_id = ForeignKeyField(Enrollments, backref='padawans')
+    course_id = ForeignKeyField(Course, backref='courses')
+    padawan_id = ForeignKeyField(Padawan, backref='padawans')
 
     class Meta:
         database = DATABASE

@@ -28,6 +28,47 @@ def create_course():
         print('you are able to create a course because you are an admin')
     else:
         print('you are not able to create a course because you are not an admin')
+
+@courses.route('/<current_user>', methods=['GET'])
+@login_required
+def courses_index():
+    #find the courses in the table whose padaw ID is the logged in user_id
+    try:
+        #Are we setting a foreign key for padawans within courses?  If so, i'm using padawan below...but we might want to change that moving forward.
+        this_users_course_instances = models.Course.select().where(models.Course.padawan_id == current_user.id)
+        this_users_course_dicts = [model_to_dict(course) for course in this_users_course_instances]
+
+        return jsonify(data=this_users_course_dicts, status={
+            'code': 200,
+            'message': 'Success'
+            }), 200
+
+    except models.DoesNotExist:
+        return jsonify(data={}, status={
+            'code': 401, 
+            'message': "Error getting the resources"
+            }), 401
+
+@courses.route('/<padawans>', methods=['GET'])
+@login_required
+def get_courses():
+    #Some kind of logic involving whether user is admin...
+    #Find all Padawans in a course
+    #Again, foreign key for courses in padawans?
+    try:
+        this_course_padawan_instances = models.Course.select(models.Course.padawan_id)
+        this_padawans_course_dicts = [model_to_dict(course) for course in this_course_padawan_instances]
+
+        return jsonify(data=this_padawans_course_dicts, status={
+                'code': 200,
+                'message': 'Success'
+            }), 200
+
+    except models.DoesNotExist:
+        return jsonify(data={}, status={
+                "code": 401, 
+                "message": "Error getting the resources"
+            }), 401
     
 
 

@@ -3,8 +3,8 @@ from flask_cors import CORS
 
 from flask_login import LoginManager
 
-from resources.padawans import padawans
 from resources.courses import courses
+from resources.padawans import padawans
 
 import models
 
@@ -19,11 +19,27 @@ login_manager = LoginManager()
 
 login_manager.init_app(app)
 
+@login_manager.user_loader
+def load_padawan(padawan_id):
+  try: 
+    return models.Padawan.get(models.Padawan.id == padawan_id)
+  except models.DoesNotExist:
+    return None
+
+@login_manager.unauthorized_handler
+def unauthorized():
+  return jsonify(data={
+      'error': 'User not logged in.'
+    }, status={
+      'code': 401,
+      'message': "You must be logged in to access that resource."
+    }), 401
+
 CORS(courses, origins=['http://localhost:3000'], supports_credentials=True) 
 CORS(padawans, origins=['http://localhost:3000'], supports_credentials=True)
 
-app.register_blueprint(courses, url_prefix='/api/v1/padawans')
-app.register_blueprint(padawans, url_prefix='/api/v1/courses')
+app.register_blueprint(courses, url_prefix='/api/v1/courses')
+app.register_blueprint(padawans, url_prefix='/api/v1/padawans')
 
 @app.before_request 
 def before_request():

@@ -40,8 +40,8 @@
    - get all my courses (use current_user) -> ('/courses/current_user') --> GET
 
 3. Enrollments
-   enroll -> ('enrollments/<course_id>') --> POST
-   unenroll -> ('enrollments/<course_id>') --> PUT
+   - enroll -> ('enrollments/<course_id>') --> POST
+   - unenroll -> ('enrollments/<course_id>') --> PUT
 
 ## MODELS
 

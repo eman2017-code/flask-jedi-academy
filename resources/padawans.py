@@ -6,4 +6,4 @@ from flask_login import login_user, current_user, logout_user
 from playhouse.shortcuts import model_to_dict
 
 # make this a blueprint
-users = Blueprint('users', 'users')
+padawans = Blueprint('padawans', 'padawans')

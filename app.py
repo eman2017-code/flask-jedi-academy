@@ -3,8 +3,8 @@ from flask_cors import CORS
 
 from flask_login import LoginManager
 
-from resources.dogs import padawans
-from resources.users import courses
+from resources.padawans import padawans
+from resources.courses import courses
 
 import models
 
@@ -19,11 +19,11 @@ login_manager = LoginManager()
 
 login_manager.init_app(app)
 
-CORS(dogs, origins=['http://localhost:3000'], supports_credentials=True) 
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(courses, origins=['http://localhost:3000'], supports_credentials=True) 
+CORS(padawans, origins=['http://localhost:3000'], supports_credentials=True)
 
-app.register_blueprint(dogs, url_prefix='/api/v1/padawans')
-app.register_blueprint(users, url_prefix='/api/v1/courses')
+app.register_blueprint(courses, url_prefix='/api/v1/padawans')
+app.register_blueprint(padawans, url_prefix='/api/v1/courses')
 
 @app.before_request 
 def before_request():

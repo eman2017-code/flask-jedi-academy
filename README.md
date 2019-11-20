@@ -36,12 +36,13 @@
    - create courses route -> ('/courses/new') --> POST (must be admin)
    - update/edit courses route -> ('/courses/<id>') --> PUT (must be admin)
    - delete courses route -> ('/courses/<id>') --> Delete (must be admin)
-   - list all padawans in a course -> ('/courses/padawans') --> GET (must be admin)
+   - list all padawans in a course -> ('/courses/<id>/padawans') --> GET (must be admin)
    - get all my courses (use current_user) -> ('/courses/current_user') --> GET
+   - lists all courses --> GET /courses
 
 3. Enrollments
-   - enroll -> ('enrollments/<course_id>') --> POST
-   - unenroll -> ('enrollments/<course_id>') --> PUT
+   - enroll -> ('/enrollments/<course_id>') --> POST
+   - unenroll -> ('/enrollments/<course_id>') --> PUT
 
 ## MODELS
 

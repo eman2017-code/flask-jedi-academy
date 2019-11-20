@@ -6,6 +6,7 @@ from flask_login import current_user, login_required
 
 from playhouse.shortcuts import model_to_dict
 
+# blueprint
 courses = Blueprint('courses', 'courses')
 
 # create route that allows only the admin to create a class
@@ -32,7 +33,7 @@ def create_course():
         print('you are not able to create a course because you are not an admin')
 
 # this shows all the courses that a padawan has
-@courses.route('/', methods=['GET'])
+@courses.route('/<padawan_id>', methods=['GET'])
 @login_required
 def courses_index():
     try:
@@ -54,34 +55,62 @@ def courses_index():
             'message': "Error getting the resources"
             }), 401
 
-# this shows all the padawans in a course 
-@courses.route('/<course_id>', methods=['GET'])
-# the user must be logged in
-@login_required
-def get_courses():
-    try:
-        # we need to get the course id
-        this_course_padawan_instances = models.Course.select(models.Course.owner_id)
-        console.log(owner_id)
-
-        # we need to loop through all the padawans_id that are associated with the course_id
-        # this_padawans_course_dicts = [model_to_dict(course) for course in this_course_padawan_instances]
+# list all the courses
+@courses.route('/', methods=["GET"])
+# @login_required
+def list_courses():
+    payload = request.get_json()
+    print(payload)
+    course_instances = models.Course.select(models.Course)
+    print(course_instances)
+    
 
 
-        return jsonify(data=this_padawans_course_dicts, status={
-                "code": 200,
-                "message": "Success"
-            }), 200
 
-    except models.DoesNotExist:
-        return jsonify(data={}, status={
-                "code": 401, 
-                "message": "Error getting the resources"
-            }), 401    
 
-# find all the enrollments that have that course id
-# query for all the students that are paired with that course id in enrollments table
-# return a list of all the students 
+
+
+
+
+
+
+# # this shows all the padawans in a course 
+# @courses.route('/<course_id>', methods=['GET'])
+# # the user must be logged in
+# @login_required
+# def get_courses():
+#     try:
+#         # we need to get the course id
+#         this_course_padawan_instances = models.Course.select(models.Course.owner_id)
+#         console.log(owner_id)
+
+#         # we need to loop through all the padawans_id that are associated with the course_id
+#         # this_padawans_course_dicts = [model_to_dict(course) for course in this_course_padawan_instances]
+
+
+#         return jsonify(data=this_padawans_course_dicts, status={
+#                 "code": 200,
+#                 "message": "Success"
+#             }), 200
+
+#     except models.DoesNotExist:
+#         return jsonify(data={}, status={
+#                 "code": 401, 
+#                 "message": "Error getting the resources"
+#             }), 401     
+
+# # show all padawans in a course
+# @courses.route('/<course_id>', methods=["POST"])
+# # the user must be logged in
+# def get_course():
+#     try:
+#         # find all the enrollments that have that course id
+#         this_course_padawan_instances
+
+#     # query for all the students that are paired with that course id in enrollments table
+
+#     # return a list of all the students 
+
 
 
 

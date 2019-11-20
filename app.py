@@ -5,6 +5,7 @@ from flask_login import LoginManager
 
 from resources.courses import courses
 from resources.padawans import padawans
+from resources.enrollments import enrollments
 
 import models
 
@@ -37,9 +38,11 @@ def unauthorized():
 
 CORS(courses, origins=['http://localhost:3000'], supports_credentials=True) 
 CORS(padawans, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(enrollments, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(courses, url_prefix='/api/v1/courses')
 app.register_blueprint(padawans, url_prefix='/api/v1/padawans')
+app.register_blueprint(enrollments, url_prefix='/api/v1/enrollments')
 
 @app.before_request 
 def before_request():

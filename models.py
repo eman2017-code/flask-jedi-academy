@@ -34,7 +34,7 @@ class Enrollments(Model):
 def initialize():
     # connect to the database
     DATABASE.connect()
-    DATABASE.create_tables([Padawan, Course], safe=True)
+    DATABASE.create_tables([Padawan, Course, Enrollments], safe=True)
     print('THE TABLES HAVE BEEN CREATED!')
     DATABASE.close()
 

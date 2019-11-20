@@ -44,7 +44,9 @@ def courses_index():
             'message': 'Success'
             }), 200
 
+    # if the model does not exist
     except models.DoesNotExist:
+        # return the error
         return jsonify(data={}, status={
             'code': 401, 
             'message': "Error getting the resources"

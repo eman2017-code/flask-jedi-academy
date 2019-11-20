@@ -36,6 +36,7 @@ def register():
 
         return jsonify(data=padawan_dict, status={"code": 201, "message": "Successfully registered {}".format(padawan_dict['full_name'])}), 201
 
+# login route
 @padawans.route('/login', methods=['POST'])
 def login():
   payload = request.get_json()
@@ -64,3 +65,17 @@ def login():
   except models.DoesNotExist:
     print('this email was not found')
     return jsonify(data={}, status={'code': 401, 'message': 'Email or password is incorrect'}), 401
+
+# logout route
+@padawans.route('/logout', methods=['GET'])
+def logout():
+    # get the full name of the user
+  full_name = model_to_dict(current_user)['full_name']
+  # actually logs the user out
+  logout_user()
+
+# nice message for the user
+  return jsonify(data={}, status={
+      'code': 200,
+      'message': "Successfully logged out {}".format(full_name)
+    })

@@ -22,6 +22,13 @@ class Course(Model):
     class Meta:
         database = DATABASE
 
+class Enrollments(Model):
+    course_id = ForeignKeyField(Enrollments, backref='courses')
+    padawan_id = ForeignKeyField(Enrollments, backref='padawans')
+
+    class Meta:
+        database = DATABASE
+
 
 def initialize():
     # connect to the database

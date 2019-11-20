@@ -7,3 +7,23 @@ from flask_login import current_user, login_required
 from playhouse.shortcuts import model_to_dict
 
 courses = Blueprint('courses', 'courses')
+
+# create route that allows only the admin to create a class
+@courses.route('/', methods=["POST"])
+# the user (admin) must be logged in to do this
+@login_required
+def create_course():
+    payload = request.get_json()
+    # this is creating the course
+    course = models.Course.create(title=payload["title"], description=payload["description"])
+    # set up a flag
+    # if the current user is an admin they can do this, otherwise they cannot
+    if current_user.full_name == 'admin':
+        print('you are able to create a course because you are an admin')
+    else:
+        print('you are not able to create a course because you are not an admin')
+    # we have to change the model to a dictionary
+    course_dict = model_to_dict(course)
+    # so we dont see the password in the database
+    return jsonify(data=course_dict, status={"code": 201, "message": "Success!"}), 201
+

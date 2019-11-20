@@ -27,6 +27,8 @@ def create_course():
         return jsonify(data=course_dict, status={"code": 201, "message": "Success!"}), 201
         print('you are able to create a course because you are an admin')
     else:
+        # the user will not be able to do! Forbidden!
+        return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to create a course because you are not an admin')
 
 # this shows all the courses that a padawan has
@@ -52,26 +54,27 @@ def courses_index():
             'message': "Error getting the resources"
             }), 401
 
-# @courses.route('/<padawans>', methods=['GET'])
-# @login_required
-# def get_courses():
-#     #Some kind of logic involving whether user is admin...
-#     #Find all Padawans in a course
-#     #Again, foreign key for courses in padawans?
-#     try:
-#         this_course_padawan_instances = models.Course.select(models.Course.padawan_id)
-#         this_padawans_course_dicts = [model_to_dict(course) for course in this_course_padawan_instances]
+# this shows all the padawans in a course 
+@courses.route('/<padawans>', methods=['GET'])
+@login_required
+def get_courses():
+    #Some kind of logic involving whether user is admin...
+    #Find all Padawans in a course
+    #Again, foreign key for courses in padawans?
+    try:
+        this_course_padawan_instances = models.Course.select(models.Course.padawan_id)
+        this_padawans_course_dicts = [model_to_dict(course) for course in this_course_padawan_instances]
 
-#         return jsonify(data=this_padawans_course_dicts, status={
-#                 'code': 200,
-#                 'message': 'Success'
-#             }), 200
+        return jsonify(data=this_padawans_course_dicts, status={
+                'code': 200,
+                'message': 'Success'
+            }), 200
 
-#     except models.DoesNotExist:
-#         return jsonify(data={}, status={
-#                 "code": 401, 
-#                 "message": "Error getting the resources"
-#             }), 401
+    except models.DoesNotExist:
+        return jsonify(data={}, status={
+                "code": 401, 
+                "message": "Error getting the resources"
+            }), 401
     
 
 

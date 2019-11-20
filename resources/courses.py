@@ -30,21 +30,3 @@ def create_course():
         print('you are not able to create a course because you are not an admin')
     
 
-
-# @courses.route('/', methods=["POST"])
-# @login_required
-# def create_course():
-#     payload = request.get_json()
-
-#     course = models.Course.create(name=payload['title'], 
-#         owner=current_user.id, 
-#         description=payload["description"]
-#     )
-
-#     # Change the model to a dict
-#     print(model_to_dict(course), 'model to dict')
-#     course_dict = model_to_dict(course)
-#     # delete the password
-#     # course_dict['owner'].pop('password')
-#     return jsonify(data=dog_dict, status={"code": 201, "message": "Success"}), 201
-

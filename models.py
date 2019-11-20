@@ -15,6 +15,7 @@ class Padawan(UserMixin, Model):
         database = DATABASE
 
 class Course(Model):
+    owner = ForeignKeyField(Padawan, backref='courses')
     title = CharField(unique=True)
     description = CharField(unique=True)
     start_date = DateTimeField(default=datetime.datetime.now)

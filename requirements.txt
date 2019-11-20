@@ -1,3 +1,4 @@
+autopep8==1.4.4
 bcrypt==3.1.7
 cffi==1.13.2
 Click==7.0
@@ -10,6 +11,8 @@ Jinja2==2.10.3
 MarkupSafe==1.1.1
 peewee==3.11.2
 psycopg2==2.8.4
+pycodestyle==2.5.0
 pycparser==2.19
 six==1.13.0
+virtualenv==16.7.7
 Werkzeug==0.16.0

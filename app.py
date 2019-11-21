@@ -29,12 +29,7 @@ def load_padawan(padawan_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-  return jsonify(data={
-      'error': 'User not logged in.'
-    }, status={
-      'code': 401,
-      'message': "You must be logged in to access that resource."
-    }), 401
+  return jsonify(data={'error': 'User not logged in.'}, status={'code': 401,'message': "You must be logged in to access that resource."}), 401
 
 CORS(courses, origins=['http://localhost:3000'], supports_credentials=True) 
 CORS(padawans, origins=['http://localhost:3000'], supports_credentials=True)

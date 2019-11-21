@@ -9,7 +9,7 @@ from playhouse.shortcuts import model_to_dict
 # blueprint
 courses = Blueprint('courses', 'courses')
 
-# create route that allows only the admin to create a class
+# admin create course route that allows (only the admin to create a class)
 @courses.route('/', methods=["POST"])
 # the user (admin) must be logged in to do this
 @login_required
@@ -29,13 +29,46 @@ def create_course():
         print('you are able to create a course because you are an admin')
     else:
         # the user will not be able to do! Forbidden!
-        return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
+        return jsonify(data={}, status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to create a course because you are not an admin')
 
-# this shows all the courses that a padawan has
+#admin can update(edit) a course (only an admin can do this)
+@courses.route('/<id>', methods=["PUT"])
+@login_required
+def update_course(id): 
+
+    payload = request.get_json()
+
+    if current_user.full_name == 'admin': 
+
+        query = models.Course.update(**payload).where(models.Course.id==id) 
+        query.execute() 
+
+        return jsonify(data=model_to_dict(models.Course.get_by_id(id)), status={"code": 200, "message": "you update a course successfully"})
+    else:  
+
+        return jsonify(data={}, status={"code": 403, "message": "The force is not so strong with you"}), 403
+        print('you are not able to update a course because you are not an admin')
+
+#admin can delete a course
+@courses.route('<id>', methods=["Delete"])
+@login_required
+def delete_course(id):
+
+    payload = request.get_json()
+
+    if current_user.full_name == 'admin': 
+
+        query = models.Dog.delete().where(models.Dog.id==id)
+        query.execute()
+
+        return jsonify(data=model_to_dict(models.Course.get_by_id(id)), status={"code": 200, "message": "you update a course successfully"})
+
+
+# this shows all the courses that a padawan has (padawan show page )
 @courses.route('/<padawan_id>', methods=['GET'])
 @login_required
-def courses_index():
+def courses_index(padawan_id):
     try:
         # we want to see the course instance that coorelates with the padawan
         this_users_course_instances = models.Course.select().where(models.Course.owner_id == current_user.id)
@@ -57,7 +90,7 @@ def courses_index():
 
 # list all the courses
 @courses.route('/', methods=["GET"])
-# @login_required
+@login_required
 def list_courses():
 
     try:
@@ -81,13 +114,14 @@ def list_courses():
                 'message': 'Success'
                 }), 200
     except:
-        
+
         # return error message if data cannot be processed 
         return jsonify(data={}, status={
                 'code': 500,
                 'message': 'ops not good'
                 }), 500
 
+<<<<<<< HEAD
 
 
 
@@ -133,6 +167,24 @@ def get_course():
     # query for all the students that are paired with that course id in enrollments table
 
     # return a list of all the students 
+
+# # delete course route (must be an admin)
+# @courses.route('/<id>', methods=["Delete"])
+# @login_required
+# def delete_course(id):
+#     # declare variable to obtain the id of the course
+#     course_to_delete = models.Course.get_by_id(id)
+
+#     # if user is NOT admin, they cant do that
+#     if current_user.full_name != 'admin':
+#         return jsonify(data={}, status={"code": 401, "message": "you are not a jedi master! You cant do this because you are not an admin"}), 401
+#     else:
+#         # delete that instance of that course
+#         course = course_to_delete.title
+#         course_to_delete.delete_instance()
+#         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
+
+
 
 
 

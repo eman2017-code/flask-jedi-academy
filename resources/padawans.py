@@ -87,7 +87,18 @@ def logout():
 @padawans.route('/', methods=["GET"])
 def list_all_padawans():
   if current_user.full_name == 'admin':
-    return jsonify(data={}, status={
+    # declare payload variable
+    payload = request.get_json()
+
+    # select all the padawans
+    padawan_instances = models.Padawan.select()
+
+    # loop through all the padawan ids (convert to dictionaries)
+    padawan_instances_dict = [model_to_dict(padawans) for padawans in padawan_instances]
+    print(padawan_instances)
+
+    # return the list of padawans dicts
+    return jsonify(data=padawan_instances_dict, status={
       'code': 200,
       'message': "you will be able to see all the students in the school"
     })

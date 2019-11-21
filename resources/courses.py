@@ -50,6 +50,20 @@ def update_course(id):
         return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to update a course because you are not an admin')
 
+#admin can delete a course
+@courses.route('</id>', methods=["Delete"])
+@login_required
+def delete_course(id):
+
+    payload = request.get_json()
+
+    if current_user.full_name == 'admin': 
+
+        query = models.Dog.delete().where(models.Dog.id==id)
+        query.execute()
+
+        return jsonify(data=model_to_dict(models.Course.get_by_id(id)), status={"code": 200, "message": "you update a course successfully"})
+
 
 # this shows all the courses that a padawan has (padawan show page )
 @courses.route('/<padawan_id>', methods=['GET'])

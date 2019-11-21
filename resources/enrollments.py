@@ -13,12 +13,7 @@ enrollments = Blueprint('enrollments', 'enrollments')
 @enrollments.route('/<course_id>', methods=['POST'])
 def enroll_padawan_to_course(course_id):
     
-
-    # payload = request.get_json()
-
-         
-    # if course = True (if they check the box), add to padawan_id
-    # else course = False (if they do not check the box)
+    new_enrollment = models.Enrollment.create({course_id: course_id, padawan_id: current_user.id})
 
     return jsonify(data=course_dict, status={
             'code': 201,

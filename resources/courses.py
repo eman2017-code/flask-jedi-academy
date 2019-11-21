@@ -9,7 +9,7 @@ from playhouse.shortcuts import model_to_dict
 # blueprint
 courses = Blueprint('courses', 'courses')
 
-# create route that allows only the admin to create a class
+# admin create course route that allows (only the admin to create a class)
 @courses.route('/', methods=["POST"])
 # the user (admin) must be logged in to do this
 @login_required
@@ -32,10 +32,10 @@ def create_course():
         return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to create a course because you are not an admin')
 
-# this shows all the courses that a padawan has
+# this shows all the courses that a padawan has (padawan show page )
 @courses.route('/<padawan_id>', methods=['GET'])
 @login_required
-def courses_index():
+def courses_index(padawan_id):
     try:
         # we want to see the course instance that coorelates with the padawan
         this_users_course_instances = models.Course.select().where(models.Course.owner_id == current_user.id)
@@ -81,7 +81,7 @@ def list_courses():
                 'message': 'Success'
                 }), 200
     except:
-        
+
         # return error message if data cannot be processed 
         return jsonify(data={}, status={
                 'code': 500,

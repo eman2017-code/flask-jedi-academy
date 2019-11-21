@@ -29,7 +29,7 @@ def create_course():
         print('you are able to create a course because you are an admin')
     else:
         # the user will not be able to do! Forbidden!
-        return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
+        return jsonify(data={}, status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to create a course because you are not an admin')
 
 #admin can update(edit) a course (only an admin can do this)
@@ -47,7 +47,7 @@ def update_course(id):
         return jsonify(data=model_to_dict(models.Course.get_by_id(id)), status={"code": 200, "message": "you update a course successfully"})
     else:  
 
-        return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
+        return jsonify(data={}, status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to update a course because you are not an admin')
 
 #admin can delete a course
@@ -90,7 +90,7 @@ def courses_index(padawan_id):
 
 # list all the courses
 @courses.route('/', methods=["GET"])
-# @login_required
+@login_required
 def list_courses():
 
     try:
@@ -120,6 +120,25 @@ def list_courses():
                 'code': 500,
                 'message': 'ops not good'
                 }), 500
+
+# delete course route (must be an admin)
+@courses.route('/<id>', methods=["Delete"])
+@login_required
+def delete_course(id):
+    # declare variable to obtain the id of the course
+    course_to_delete = models.Course.get_by_id(id)
+
+    # if user is NOT admin, they cant do that
+    if current_user.full_name != 'admin':
+        return jsonify(data={}, status={"code": 403, "message": "you are not a jedi master! You cant do this because you are not an admin"})
+    else:
+        # delete that instance of that course
+        course = course_to_delete.title
+        course_to_delete.delete_instance()
+        return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
+
+
+
 
 
 

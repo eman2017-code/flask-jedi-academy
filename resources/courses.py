@@ -56,7 +56,7 @@ def delete_course(id):
         course_to_delete.delete_instance()
         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
 
-# this shows all the courses that a padawan has (padawan show page )
+# this shows all the courses that a padawan is able to take (padawan show page )
 @courses.route('/<padawan_id>', methods=['GET'])
 @login_required
 def courses_index(padawan_id):
@@ -103,4 +103,4 @@ def list_courses():
                 'message': 'ops not good'
                 }), 500
         
-# route for admin to see all students
+

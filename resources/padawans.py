@@ -82,3 +82,19 @@ def logout():
       'code': 200,
       'message': "Successfully logged out {}".format(full_name)
     })
+
+# route for admin to see all students
+@padawans.route('/', methods=["GET"])
+def list_all_padawans():
+  if current_user.full_name == 'admin':
+    return jsonify(data={}, status={
+      'code': 200,
+      'message': "you will be able to see all the students in the school"
+    })
+  else:
+    return jsonify(data={}, status={
+      'code': 401,
+      'message': "You will NOT be able to see all the students in the school"
+    })
+    
+

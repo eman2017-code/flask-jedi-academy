@@ -1,8 +1,8 @@
 import models
 
-from flask import request, jsonify, Blueprint
+from flask import Blueprint, jsonify, request
 
-from flask_login import login_user, current_user, logout_user
+from flask_login import current_user, login_required
 
 from playhouse.shortcuts import model_to_dict
 
@@ -11,17 +11,20 @@ enrollments = Blueprint('enrollments', 'enrollments')
 
 # allow user(padawan) to enroll in a course -- creating an enrollment
 @enrollments.route('/<id>', methods=["POST"])
+# the user must login to register for a course
+@login_required
 def enroll_padawan(id):
 	try: 
-
+		# create the enrollment and tie the course to the padawan
 		new_enrollment = models.Enrollments.create({course_id: course_id, padawan_id: current_user.id})
-
+		# return the good news
 		return jsonify(data=course_dict, status={"code": 201, "message": "Succesfully added course to your roster"}), 201
-
+		
+	# if the model does not exist
 	except models.DoesNotExist:
-		print('this padawan cannot register, the dark side resides in them')
-
+		# return the bad news
 		return jsonify(data={}, status={"code": 401, "message": "this padawan cannot register, the dark side resides in them'"}), 401
+		# print('this padawan cannot register, the dark side resides in them')
 
 
 

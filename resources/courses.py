@@ -130,61 +130,13 @@ def delete_course(id):
 
     # if user is NOT admin, they cant do that
     if current_user.full_name != 'admin':
-        return jsonify(data={}, status={"code": 403, "message": "you are not a jedi master! You cant do this because you are not an admin"})
+        return jsonify(data={}, status={"code": 401, "message": "you are not a jedi master! You cant do this because you are not an admin"}), 401
     else:
         # delete that instance of that course
         course = course_to_delete.title
         course_to_delete.delete_instance()
         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
 
-
-
-
-
-
-
-
-
-
-
-
-
-# # this shows all the padawans in a course 
-# @courses.route('/<course_id>', methods=['GET'])
-# # the user must be logged in
-# @login_required
-# def get_courses():
-#     try:
-#         # we need to get the course id
-#         this_course_padawan_instances = models.Course.select(models.Course.owner_id)
-#         console.log(owner_id)
-
-#         # we need to loop through all the padawans_id that are associated with the course_id
-#         # this_padawans_course_dicts = [model_to_dict(course) for course in this_course_padawan_instances]
-
-
-#         return jsonify(data=this_padawans_course_dicts, status={
-#                 "code": 200,
-#                 "message": "Success"
-#             }), 200
-
-#     except models.DoesNotExist:
-#         return jsonify(data={}, status={
-#                 "code": 401, 
-#                 "message": "Error getting the resources"
-#             }), 401     
-
-# # show all padawans in a course
-# @courses.route('/<course_id>', methods=["POST"])
-# # the user must be logged in
-# def get_course():
-#     try:
-#         # find all the enrollments that have that course id
-#         this_course_padawan_instances
-
-#     # query for all the students that are paired with that course id in enrollments table
-
-#     # return a list of all the students 
 
 
 

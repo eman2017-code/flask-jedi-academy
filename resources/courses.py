@@ -59,11 +59,34 @@ def courses_index():
 @courses.route('/', methods=["GET"])
 # @login_required
 def list_courses():
-    payload = request.get_json()
-    print(payload)
-    course_instances = models.Course.select(models.Course)
-    print(course_instances)
-    
+
+    try:
+
+        payload = request.get_json()
+        print(payload)
+
+        # models.Course.select() is taking all of the data from the Course model and
+        # storing it into the course_instances varaible 
+        course_instances = models.Course.select()
+
+        #For loop through the Course Model Data(course_instances) and converting to dictionaries for Python to read
+        course_instances_dict = [model_to_dict(courses) for courses in course_instances]
+
+        print(course_instances)
+        print("this my data >>>", course_instances_dict)
+
+        # return the data 
+        return jsonify(data=course_instances_dict, status={
+                'code': 200,
+                'message': 'Success'
+                }), 200
+    except:
+        
+        # return error message if data cannot be processed 
+        return jsonify(data={}, status={
+                'code': 500,
+                'message': 'ops not good'
+                }), 500
 
 
 

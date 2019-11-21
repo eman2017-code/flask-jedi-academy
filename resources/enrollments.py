@@ -9,16 +9,20 @@ from playhouse.shortcuts import model_to_dict
 # blueprint
 enrollments = Blueprint('enrollments', 'enrollments')
 
-# allow user to enroll in a course -- creating an enrollment
+# allow user(padawan) to enroll in a course -- creating an enrollment
 @enrollments.route('/<course_id>', methods=['POST'])
-def enroll_padawan_to_course(course_id):
-    
-    new_enrollment = models.Enrollment.create({course_id: course_id, padawan_id: current_user.id})
+def enroll_padawan(course_id):
+	try: 
 
-    return jsonify(data=course_dict, status={
-            'code': 201,
-            "message": "Succesfully added course to your roster"
-        }), 201
+		new_enrollment = models.Enrollments.create({course_id: course_id, padawan_id: current_user.id})
+
+		return jsonify(data=course_dict, status={"code": 201, "message": "Succesfully added course to your roster"}), 201
+
+	except models.DoesNotExist:
+		print('this padawan cannot register, the dark side resides in them')
+
+		return jsonify(data={}, status={"code": 401, "message": "this padawan cannot register, the dark side resides in them'"}), 401
+
 
 
 # @enrollments.route('/<course_id>', methods=['PUT'])

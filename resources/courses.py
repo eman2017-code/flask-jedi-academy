@@ -51,7 +51,7 @@ def update_course(id):
         print('you are not able to update a course because you are not an admin')
 
 #admin can delete a course
-@courses.route('</id>', methods=["Delete"])
+@courses.route('<id>', methods=["Delete"])
 @login_required
 def delete_course(id):
 

@@ -90,7 +90,7 @@ def list_courses():
                 'code': 500,
                 'message': 'ops not good'
                 }), 500
-        
+
 # # delete course route (must be an admin)
 # @courses.route('/<id>', methods=["Delete"])
 # @login_required

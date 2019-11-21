@@ -10,7 +10,7 @@ from playhouse.shortcuts import model_to_dict
 enrollments = Blueprint('enrollments', 'enrollments')
 
 # allow user(padawan) to enroll in a course -- creating an enrollment
-@enrollments.route('/<id>', methods=['POST'])
+@enrollments.route('/<id>', methods=["POST"])
 def enroll_padawan(id):
 	try: 
 

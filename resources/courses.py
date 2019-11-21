@@ -59,26 +59,45 @@ def delete_course(id):
         course_to_delete.delete_instance()
         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
 
-# this shows all the courses that a padawan is enrolled in
-@courses.route('/<padawan_id>', methods=['GET'])
+# this shows all padawans in a course
+@courses.route('<course_id>', methods=["GET"])
+# the user must be logged in
 @login_required
-def courses_index(padawan_id):
+def courses_padawans(course_id):
     try:
-        # we want to see the course instance that coorelates with the padawan
-        this_users_course_instances = models.Enrollments.select().where(models.Enrollments.padawan_id == current_user.id)
-        # we need to loop through the courses to show them for the padawan
-        this_padawans_course_dicts = [model_to_dict(enrollment) for enrollment in this_users_course_instances]
-        return jsonify(data=this_padawans_course_dicts, status={
-            'code': 200,
-            'message': 'Success'
-            }), 200
-    # if the model does not exist
+        payload = request.get_json()
+        # we want to see all the padawans instances that coorelate with a specific course
+        padawans_instances = (models.Padawan.select().join(models.Enrollments).where(models.Enrollments.course_id == course_id))
+
+        # we want to loop through all of the padawan_ids that are in that course 
+        padawans_instances_dicts = [model_to_dict(padawans) for padawans in padawans_instances]
+        print(padawans_instances_dicts)
+
+
+        # give them a good message
+        return jsonify(data=padawans_instances_dicts, status={"code": 200, "messasge": "these are your fellow classmaates that are in this course"}), 200
     except models.DoesNotExist:
         # return the error
-        return jsonify(data={}, status={
-            'code': 401, 
-            'message': "Error getting the resources"
-            }), 401
+        return jsonify(data={}, status={"code": 401, "messsage": "Error getting this resource"}), 401
+
+# # this shows all padawans in a course
+# @courses.route('/<id>', methods=["GET"])
+# # user must be logged in
+# @login_required
+# def courses_padawans(course_id):
+#     try:
+#         payload = request.get_json()
+#         padawan_instances = models.Padawan.select()
+#         padawan_instances_dicts = [model_to_dict(padawans) for padawans in padawan_instances]
+#         print('these are the padawan_instances_dicts')
+#         print(padawan_instances_dicts)
+    
+#         # return jsonify(data=padawan_instances_dicts, status={"code": 201, "messasge": "these are your fellow classmaates that are in this course"}), 201
+#     except:
+#          return jsonify(data={}, status={"code": 401, "messsage": "Error getting this resource"}), 401
+
+    
+
 
 # list all the courses (admin can see all the courses as well)
 @courses.route('/', methods=["GET"])

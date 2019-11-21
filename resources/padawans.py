@@ -109,3 +109,23 @@ def list_all_padawans():
     })
     
 
+# this shows all the courses that a padawan is enrolled in
+@padawans.route('/<padawan_id>', methods=['GET'])
+# @login_required
+def courses_index(padawan_id):
+    try:
+        # we want to see the course instance that coorelates with the padawan
+        this_users_course_instances = models.Enrollments.select().where(models.Enrollments.padawan_id == current_user.id)
+        # we need to loop through the courses to show them for the padawan
+        this_padawans_course_dicts = [model_to_dict(enrollment) for enrollment in this_users_course_instances]
+        return jsonify(data=this_padawans_course_dicts, status={
+            'code': 200,
+            'message': 'Success'
+            }), 200
+    # if the model does not exist
+    except models.DoesNotExist:
+        # return the error
+        return jsonify(data={}, status={
+            'code': 401, 
+            'message': "Error getting the resources"
+            }), 401

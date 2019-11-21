@@ -64,7 +64,6 @@ def delete_course(id):
 @login_required
 def courses_padawans(course_id):
     try:
-        payload = request.get_json()
         # get all the padawans
         # join the enrollments table (the through table) and select where all the course_id in the through table match the course that is put into the route
         padawans_instances = (models.Padawan.select().join(models.Enrollments).where(models.Enrollments.course_id == course_id))

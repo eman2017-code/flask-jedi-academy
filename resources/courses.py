@@ -1,6 +1,9 @@
 import models
+
 from flask import Blueprint, jsonify, request
+
 from flask_login import current_user, login_required
+
 from playhouse.shortcuts import model_to_dict
 
 # blueprint
@@ -56,7 +59,7 @@ def delete_course(id):
         course_to_delete.delete_instance()
         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
 
-# this shows all the courses that a padawan is able to take (padawan show page )
+# this shows all the courses that a padawan is enrolled in
 @courses.route('/<padawan_id>', methods=['GET'])
 @login_required
 def courses_index(padawan_id):

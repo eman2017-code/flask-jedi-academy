@@ -14,11 +14,16 @@ enrollments = Blueprint('enrollments', 'enrollments')
 # the user must login to register for a course
 @login_required
 def enroll_padawan(id):
+	# payload = request.get_json()
 	try: 
 		# create the enrollment and tie the course to the padawan
-		new_enrollment = models.Enrollments.create({course_id: course_id, padawan_id: current_user.id})
+		new_enrollment = models.Enrollments.create(course_id = id, padawan_id = current_user.id)
 		# return the good news
-		return jsonify(data=course_dict, status={"code": 201, "message": "Succesfully added course to your roster"}), 201
+
+		new_enrollment_to_dict = model_to_dict(new_enrollment)
+
+
+		return jsonify(data=new_enrollment_to_dict, status={"code": 201, "message": "Succesfully added course to your roster"}), 201
 		
 	# if the model does not exist
 	except models.DoesNotExist:

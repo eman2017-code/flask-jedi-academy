@@ -38,7 +38,7 @@
    - delete courses route -> ('/courses/<id>') --> Delete (must be admin)
    - list all padawans in a course -> ('/courses/<id>/padawans') --> GET (must be admin)
    - get all my courses (use current_user) -> ('/courses/current_user') --> GET
-   - lists all courses --> GET /courses (must be admin)
+   - lists all courses --> GET /courses (admin and padawan can see)
 
 3. Enrollments
    - enroll -> ('/enrollments/<course_id>') --> POST

@@ -65,9 +65,9 @@ def delete_course(id):
 def courses_index(padawan_id):
     try:
         # we want to see the course instance that coorelates with the padawan
-        this_users_course_instances = models.Course.select().where(models.Course.owner_id == current_user.id)
+        this_users_course_instances = models.Enrollments.select().where(models.Enrollments.padawan_id == current_user.id)
         # we need to loop through the courses to show them for the padawan
-        this_padawans_course_dicts = [model_to_dict(course) for course in this_users_course_instances]
+        this_padawans_course_dicts = [model_to_dict(enrollment) for enrollment in this_users_course_instances]
         return jsonify(data=this_padawans_course_dicts, status={
             'code': 200,
             'message': 'Success'

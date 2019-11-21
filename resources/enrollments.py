@@ -13,6 +13,8 @@ enrollments = Blueprint('enrollments', 'enrollments')
 @enrollments.route('/<id>', methods=["POST"])
 # the user must login to register for a course
 @login_required
+
+# the id that is being passed in is the course id
 def enroll_padawan(id):
 	# payload = request.get_json()
 	try: 

@@ -32,6 +32,25 @@ def create_course():
         return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
         print('you are not able to create a course because you are not an admin')
 
+#admin can update(edit) a course (only an admin can do this)
+@courses.route('/<id>', methods=["PUT"])
+@login_required
+def update_course(id): 
+
+    payload = request.get_json()
+
+    if current_user.full_name == 'admin': 
+
+        query = models.Course.update(**payload).where(models.Course.id==id) 
+        query.execute() 
+
+        return jsonify(data=model_to_dict(models.Course.get_by_id(id)), status={"code": 200, "message": "you update a course successfully"})
+    else:  
+
+        return jsonify(data="Forbidden", status={"code": 403, "message": "The force is not so strong with you"}), 403
+        print('you are not able to update a course because you are not an admin')
+
+
 # this shows all the courses that a padawan has (padawan show page )
 @courses.route('/<padawan_id>', methods=['GET'])
 @login_required

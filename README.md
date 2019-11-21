@@ -43,7 +43,6 @@
 
 3. Enrollments
    - enroll -> ('/enrollments/<course_id>') --> POST
-   - unenroll -> ('/enrollments/<course_id>') --> PUT
 
 ## MODELS
 

@@ -20,7 +20,7 @@ def register():
         # dont create the user if one with this full_name already exists in the database
         models.Padawan.get(models.Padawan.full_name == payload['full_name'])
         # if the full_name already exists in the system
-        return jsonsify(data={}, status={"code": 401, "message": 'A user will that full_name already exists'}), 401
+        return jsonify(data={}, status={"code": 401, "message": 'A user will that full_name already exists'}), 401
 
     # if the user was not already in the database
     except models.DoesNotExist:
@@ -33,7 +33,7 @@ def register():
         padawan_dict = model_to_dict(padawan)
         del padawan_dict['password']
         # return good response
-        return jsonify(data=padawan_dict, status={"code": 200, "message": "Successfully registered {}".format(padawan_dict['full_name'])}), 200
+        return jsonify(data=padawan_dict, status={"code": 201, "message": "Successfully registered {}".format(padawan_dict['full_name'])}), 201
 
 # login route
 @padawans.route('/login', methods=['POST'])

@@ -18,36 +18,34 @@ padawans = Blueprint('padawans', 'padawans')
 def register():
     # grab the padawan
     payload = request.get_json()
-
     # make it email lowercase
     payload['email'].lower()
 
     try:
-        # query/check their email against the database
-        models.Padawan.get(models.Padawan.email == payload['email'])
+        # query/check their full_name against the database
+        models.Padawan.get(models.Padawan.full_name == payload['full_name'])
 
         # return the error if there is an email like that that already exists in the database
         return jsonify(
             data={},
             status={"code": 401,
-                    "message": "A user will that email already exists"}
-        )
+                    "message": 'A user will that full_name already exists'}
+        ), 401
 
-    # if the user does not already exist in the database via email
     except DoesNotExist:
 
         try:
-            # query/check their full_name against the database
-            models.Padawan.get(models.Padawan.full_name ==
-                               payload['full_name'])
+            # query/check their email against the database
+            models.Padawan.get(models.Padawan.email == payload['email'])
 
             # return the error if there is an email like that that already exists in the database
-            return jsonify(data={},
-                           status={"code": 401,
-                                   "message": 'A user will that full_name already exists'}
-                           ), 401
+            return jsonify(
+                data={},
+                status={"code": 401,
+                        "message": "A user will that email already exists"}
+            )
 
-    # if the user does not already exist in the database via full_name
+            # if the user does not already exist in the database via full_name
         except DoesNotExist:
 
             # if the user was not already in the database
@@ -66,7 +64,11 @@ def register():
             del padawan_dict['password']
 
             # return good response
-            return jsonify(data=padawan_dict, status={"code": 201, "message": "Successfully registered {}".format(padawan_dict['full_name'])}), 201
+            return jsonify(
+                data=padawan_dict,
+                status={"code": 201, "message": "Successfully registered {}".format(
+                    padawan_dict['full_name'])}
+            ), 201
 
 
 # login route

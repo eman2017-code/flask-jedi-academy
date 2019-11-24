@@ -1,10 +1,11 @@
 import datetime
 
-from peewee import * 
+from peewee import *
 
-from flask_login import UserMixin 
+from flask_login import UserMixin
 
 DATABASE = SqliteDatabase('padawans.sqlite')
+
 
 class Padawan(UserMixin, Model):
     full_name = CharField(unique=True)
@@ -14,6 +15,7 @@ class Padawan(UserMixin, Model):
     class Meta:
         database = DATABASE
 
+
 class Course(Model):
     owner = ForeignKeyField(Padawan, backref='courses')
     title = CharField(unique=True)
@@ -22,6 +24,7 @@ class Course(Model):
 
     class Meta:
         database = DATABASE
+
 
 class Enrollments(Model):
     course_id = ForeignKeyField(Course, backref='courses')
@@ -37,4 +40,3 @@ def initialize():
     DATABASE.create_tables([Padawan, Course, Enrollments], safe=True)
     print('THE TABLES HAVE BEEN CREATED!')
     DATABASE.close()
-

@@ -33,7 +33,7 @@ def register():
         padawan_dict = model_to_dict(padawan)
         del padawan_dict['password']
         # return good response
-        return jsonify(data=padawan_dict, status={"code": 201, "message": "Successfully registered {}".format(padawan_dict['full_name'])}), 201
+        return jsonify(data=padawan_dict, status={"code": 200, "message": "Successfully registered {}".format(padawan_dict['full_name'])}), 200
 
 # login route
 @padawans.route('/login', methods=['POST'])

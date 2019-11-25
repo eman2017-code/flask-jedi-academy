@@ -19,7 +19,7 @@ class Padawan(UserMixin, Model):
 class Course(Model):
     owner = ForeignKeyField(Padawan, backref='courses')
     title = CharField(unique=True)
-    description = CharField()
+    description = CharField(unique=True)
     start_date = DateTimeField(default=datetime.datetime.now)
 
     class Meta:

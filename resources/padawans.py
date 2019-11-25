@@ -6,7 +6,7 @@ from peewee import DoesNotExist
 
 from flask_bcrypt import generate_password_hash, check_password_hash
 
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 from playhouse.shortcuts import model_to_dict
 
@@ -135,21 +135,30 @@ def list_all_padawans():
 @padawans.route('/<padawan_id>', methods=['GET'])
 # @login_required
 def courses_index(padawan_id):
-    try:
-          # we want to see the course instance that coorelates with the padawan
-        this_users_course_instances = models.Enrollments.select().where(
-            models.Enrollments.padawan_id == current_user.id)
-        # we need to loop through the courses to show them for the padawan
-        this_padawans_course_dicts = [model_to_dict(
-            enrollment) for enrollment in this_users_course_instances]
-        return jsonify(data=this_padawans_course_dicts, status={
-            'code': 200,
-            'message': 'Success'
-        }), 200
+    # try:
+
+        # enr = models.Enrollments.select().where(models.Enrollments.padawan_id == current_user.id)
+        # print("here is enr")
+        # print(enr)
+        # enr_dicts = [model_to_dict(e) for e in enr]
+        # print("here is enr_dicts")
+        # print(enr_dicts)
+        # we want to see the course instance that coorelates with the padawan
+    this_users_course_instances = models.Enrollments.select().where(models.Enrollments.padawan_id == current_user.id)
+    # we need to loop through the courses to show them for the padawan
+    this_padawans_course_dicts = [model_to_dict(enrollment) for enrollment in this_users_course_instances]
+    return jsonify(data=this_padawans_course_dicts, status={
+    # return jsonify(data="hey", status={
+        'code': 200,
+        'message': 'Success'
+    }), 200
     # if the model does not exist
-    except models.DoesNotExist:
-        # return the error
-        return jsonify(data={}, status={
-            'code': 401,
-            'message': "Error getting the resources"
-        }), 401
+    # except models.DoesNotExist:
+    #     # return the error
+    #     return jsonify(data={}, status={
+    #         'code': 401,
+    #         'message': "Error getting the resources"
+    #     }), 401
+
+
+

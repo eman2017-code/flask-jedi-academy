@@ -27,7 +27,7 @@ class Course(Model):
 
 
 class Enrollments(Model):
-    course_id = ForeignKeyField(Course, backref='courses')
+    course_id = ForeignKeyField(Course, backref='courses', on_delete='CASCADE') 
     padawan_id = ForeignKeyField(Padawan, backref='padawans')
 
     class Meta:

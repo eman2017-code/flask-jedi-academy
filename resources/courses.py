@@ -56,10 +56,13 @@ def delete_course(id):
         # delete that instance of that course
         course = course_to_delete.title
         course_to_delete.delete_instance()
+        # unenroll students here 
+        unenrollment = models.Enrollments.delete(course_id = id, padawan_id = current_user.id)
+        unenrollment_to_dict = model_to_dict(unenrollment)
         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
 
 # this shows all padawans in a course
-@courses.route('<course_id>', methods=["GET"])
+@courses.route('/<course_id>', methods=["GET"])
 # the user must be logged in
 @login_required
 def courses_padawans(course_id):

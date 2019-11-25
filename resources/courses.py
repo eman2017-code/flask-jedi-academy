@@ -44,28 +44,6 @@ def update_course(id):
         return jsonify(data={}, status={"code": 403, "message": "The force is not so strong with you"}), 403
 
 # delete course route (must be an admin)
-# @courses.route('/<id>', methods=["Delete"])
-# @login_required
-# def delete_course(id):
-#     # declare variable to obtain the id of the course
-#     course_to_delete = models.Course.get_by_id(id)
-#     print('course_to_delete')
-#     print(course_to_delete)
-#     # if user is NOT admin, they cant do that
-#     if current_user.full_name != 'admin':
-#         return jsonify(data={}, status={"code": 401, "message": "you are not a jedi master! You cant do this because you are not an admin"}), 401
-#     else:
-#         # delete that instance of that course
-#         course = course_to_delete.title
-#         course_to_delete.delete_instance()
-#         # unenroll students here 
-#         unenrollment = models.Enrollments.delete(course_id = id, padawan_id = current_user.id)
-#         unenrollment_to_dict = model_to_dict(unenrollment)
-#         print('unenrollment_to_dict')
-#         print(unenrollment_to_dict)
-#         return jsonify(data="Course was successfully deleted", status={"code": 200, "message": "Successfully delted course"}), 200
-
-# delete course route (must be an admin)
 @courses.route('/<id>', methods=["Delete"])
 @login_required
 def delete_course(id):

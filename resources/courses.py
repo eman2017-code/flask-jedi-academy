@@ -48,7 +48,7 @@ def update_course(id):
 @login_required
 def delete_course(id):
     # declare variable to obtain the id of the course
-    course_to_delete = models.Course.get_by_id(id)\
+    course_to_delete = models.Course.get_by_id(id)
     # if user is NOT admin, they cant do that
     if current_user.full_name != 'admin':
         return jsonify(data={}, status={"code": 401, "message": "you are not a jedi master! You cant do this because you are not an admin"}), 401

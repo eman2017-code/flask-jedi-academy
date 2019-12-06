@@ -32,9 +32,9 @@ def load_padawan(padawan_id):
 def unauthorized():
   return jsonify(data={'error': 'User not logged in.'}, status={'code': 401,'message': "You must be logged in to access that resource."}), 401
 
-CORS(courses, origins=['http://localhost:3000'], supports_credentials=True) 
-CORS(padawans, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(enrollments, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(courses, origins=['http://localhost:3000', 'https://react-jedi-academy.herokuapp.com'], supports_credentials=True) 
+CORS(padawans, origins=['http://localhost:3000', 'https://react-jedi-academy.herokuapp.com'], supports_credentials=True)
+CORS(enrollments, origins=['http://localhost:3000', 'https://react-jedi-academy.herokuapp.com'], supports_credentials=True)
 
 app.register_blueprint(courses, url_prefix='/api/v1/courses')
 app.register_blueprint(padawans, url_prefix='/api/v1/padawans')
